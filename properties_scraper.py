@@ -103,6 +103,7 @@ for key in URLS2:
 
 
 
+
 '''
 with engine.connect() as con:
     statement = text("""DROP TABLE Nuneaton""")
@@ -111,4 +112,8 @@ with engine.connect() as con:
     #    print (row)
 
 '''
+''' 
+random changes
+'''
+
 
