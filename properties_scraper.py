@@ -71,19 +71,7 @@ def fetch(url):
             link_pro = linkpres["href"]
             start_html = "https://www.rightmove.co.uk"
             linkfull = start_html+link_pro
-            #using link to get location of property
-            property_page = Request(url=linkfull,
-               headers={'User-Agent': 'Mozilla/5.0'}
-               )
-            page_html_prope = uClient.read(property_page)
-            uClient.close()
-            page_soup_prope = soup(page_html_prope, "html.parser")
-            #location = page_soup_prope.find("a", class_ = "_1kck3jRw2PGQSOEy3Lihgp")
-            #location_pro = location["src"]
-            print (page_soup_prope)
            
-
-
             new_row = {'Title': title, 'Address': address, 'Price': price, 'Updated': updated_by, 'Snip': snip,'Link':linkfull}
             propertyinfo =  pd.concat([propertyinfo, pd.DataFrame([new_row])], ignore_index=True)
 
@@ -95,9 +83,11 @@ def fetch(url):
     propertyinfo['Price']= propertyinfo.Price.replace({"Â",""},regex=True)
     propertyinfo['Date']= now
     propertyinfo['Bedrooms']= [x[:14] for x in propertyinfo['Title']]
+    propertyinfo['Keyb'] = [x[39:48] for x in propertyinfo['Link']]
     propertyinfo = propertyinfo[propertyinfo['Town'].notna()]
     propertyinfo = propertyinfo.replace('Â','',regex=True)
     propertyinfo = propertyinfo
+    propertyinfo = propertyinfo.drop_duplicates(subset=['Keyb'])
     return propertyinfo
 
 
@@ -117,8 +107,8 @@ for key in URLS2:
     file_name = (key)
     print (Town)
     Town = fetch(URLS2[key])
-    Town.to_csv(file_name+'.csv')
-    #Town.to_sql(file_name,con=engine,if_exists="append",index=False)
+    #Town.to_csv(file_name+'.csv')
+    Town.to_sql(file_name,con=engine,if_exists="append",index=False)
 
 
 
