@@ -71,6 +71,16 @@ def fetch(url):
             link_pro = linkpres["href"]
             start_html = "https://www.rightmove.co.uk"
             linkfull = start_html+link_pro
+            #using link to get location of property
+            property_page = Request(url=linkfull,
+               headers={'User-Agent': 'Mozilla/5.0'}
+               )
+            page_html_prope = uClient.read(property_page)
+            uClient.close()
+            page_soup_prope = soup(page_html_prope, "html.parser")
+            #location = page_soup_prope.find("a", class_ = "_1kck3jRw2PGQSOEy3Lihgp")
+            #location_pro = location["src"]
+            print (page_soup_prope)
            
 
 
@@ -121,8 +131,6 @@ with engine.connect() as con:
     #    print (row)
 
 '''
-''' 
-random changes2
-'''
+
 
 
