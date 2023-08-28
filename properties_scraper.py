@@ -58,7 +58,7 @@ def fetch(url):
         index = int(index)
         index = index +24
 
-        #collecting
+        #collecting 
         for wraper in wrapers:
 
             title = wraper.find("h2", {"class":"propertyCard-title"}).text.replace("\n","")
@@ -66,8 +66,15 @@ def fetch(url):
             price = wraper.find("div", {"class": "propertyCard-priceValue"}).text.replace("Â","")
             updated_by = wraper.find("div",{"class":"propertyCard-branchSummary"}).text.replace("\n","")
             snip = wraper.find("span",{"itemprop":"description"}).text.replace("\n","")
+            # link extraction
+            linkpres = wraper.find("a", class_ = "propertyCard-img-link",attrs={"data-test": "property-img"})
+            link_pro = linkpres["href"]
+            start_html = "https://www.rightmove.co.uk"
+            linkfull = start_html+link_pro
+           
 
-            new_row = {'Title': title, 'Address': address, 'Price': price, 'Updated': updated_by, 'Snip': snip}
+
+            new_row = {'Title': title, 'Address': address, 'Price': price, 'Updated': updated_by, 'Snip': snip,'Link':linkfull}
             propertyinfo =  pd.concat([propertyinfo, pd.DataFrame([new_row])], ignore_index=True)
 
 #splitting and cleaning
@@ -84,6 +91,7 @@ def fetch(url):
     return propertyinfo
 
 
+
 def connection():
     engine = sqlalchemy.create_engine("mysql+pymysql://root:Blindman6@192.168.1.87:3307/Properties")
     Session = sqlalchemy.orm.sessionmaker()
@@ -93,13 +101,14 @@ def connection():
 
 engine = connection()
 
+
 for key in URLS2:
     Town = (key)
     file_name = (key)
     print (Town)
     Town = fetch(URLS2[key])
-    #Town.to_csv(file_name'.csv')
-    Town.to_sql(file_name,con=engine,if_exists="append",index=False)
+    Town.to_csv(file_name+'.csv')
+    #Town.to_sql(file_name,con=engine,if_exists="append",index=False)
 
 
 
@@ -113,7 +122,7 @@ with engine.connect() as con:
 
 '''
 ''' 
-random changes
+random changes2
 '''
 
 
