@@ -120,6 +120,7 @@ A **SQL view** was implemented to aggregate the results for easier querying and 
 - **Error Handling**: Improve error handling in case the webpage structure changes or the server is unresponsive.
 - **Enhancements**: Add more data points such as property images, floor plans, and agent contact information.
 - **Parameterization**: To add flexibility variables such as town names, and property types, could be stored as parameters in a configuration file or as environment variables.
+- **Dynamic Town Search**: Potential to utilise 'https://los.rightmove.co.uk/' as in example 'https://los.rightmove.co.uk/typeahead?query=north+walsham&limit=10&exclude' to obtain variables for towns.
 - **Scalability**: Implement parallel scraping to improve performance for larger datasets.
 
 ---
